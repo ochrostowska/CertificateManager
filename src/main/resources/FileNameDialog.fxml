@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="240.0" maxWidth="400.0" minHeight="240.0" minWidth="400.0" prefHeight="240.0" prefWidth="400.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.oldzi.assecoTask.view.dialogs.FilenameDialogController">
+    <children>
+        <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+            <buttons>
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" prefWidth="120.0" text="Cancel" />
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOk" text="OK" />
+            </buttons>
+        </ButtonBar>
+        <AnchorPane layoutY="6.0" prefHeight="79.0" prefWidth="439.0" styleClass="title" stylesheets="@DarkTheme.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+                <Label fx:id="titleLabel" alignment="CENTER" layoutX="203.0" layoutY="27.0" prefHeight="74.0" prefWidth="439.0" styleClass="super-header" text="Saving Certificate" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="warningContentLabel" layoutX="5.0" layoutY="60.0" prefHeight="44.0" prefWidth="380.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+            <children>
+                <Label fx:id="messageLabel" alignment="CENTER" layoutX="203.0" layoutY="-20.0" prefHeight="134.0" prefWidth="380.0" text="Please enter the file name" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </children>
+        </AnchorPane>
+        <ImageView fitHeight="59.0" fitWidth="62.0" layoutX="-41.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+            <image>
+                <Image url="@images/cocoa.png" />
+            </image>
+        </ImageView>
+      <HBox alignment="CENTER" prefHeight="240.0" prefWidth="400.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="105.0">
+         <children>
+            <TextField fx:id="fileNameTextField" prefHeight="27.0" prefWidth="294.0" />
+            <Label text=".pem">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="incorrectLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="138.0" style="-fx-font-size: 12pt; -fx-text-fill: #DD545C;" text="Enter correct name!" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="140.0" />
+    </children>
+</AnchorPane>

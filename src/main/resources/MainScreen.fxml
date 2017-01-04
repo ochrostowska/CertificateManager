@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="600.0" prefWidth="1200.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.oldzi.assecoTask.view.MainPanelController">
+   <children>
+      <SplitPane dividerPositions="0.17416666666666666" layoutX="115.0" layoutY="22.0" minHeight="400.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane maxWidth="400.0" minHeight="0.0" minWidth="60.0" prefHeight="600.0" prefWidth="260.0">
+               <children>
+                  <SplitPane dividerPositions="0.4090909090909091" layoutX="23.0" layoutY="40.0" minWidth="140.0" orientation="VERTICAL" prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane fx:id="userDataAnchorPane" maxHeight="260.0" minHeight="0.0" minWidth="0.0" prefHeight="170.0" prefWidth="172.0" style="-fx-background-color: DD545C;">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onLogOut" styleClass="button-bright" text="Log out" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+                              <VBox alignment="BOTTOM_CENTER" layoutX="52.0" layoutY="-36.0" maxHeight="400.0" prefHeight="180.0" prefWidth="184.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                 <children>
+                                    <ImageView fx:id="userImage" fitHeight="147.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/snowman.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="192.0" text="username" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="60.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Button layoutX="57.0" layoutY="22.0" mnemonicParsing="false" onAction="#onMyUsers" text="My users" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0" />
+                              <Button layoutX="45.0" layoutY="61.0" mnemonicParsing="false" onAction="#onUsersDetails" text="Users details" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="55.0" />
+                              <Button layoutX="40.0" layoutY="102.0" mnemonicParsing="false" onAction="#onManageUsers" text="Manage Users" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="95.0" />
+                              <Button layoutX="57.0" layoutY="142.0" mnemonicParsing="false" onAction="#onCertificates" text="Certificates" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="135.0" />
+                              <HBox alignment="BOTTOM_CENTER" layoutX="2.0" layoutY="157.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                 <children>
+                                    <ImageView fx:id="bigTree" fitHeight="112.0" fitWidth="103.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/christmas-tree.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="smallTree" fitHeight="71.0" fitWidth="71.0" layoutX="51.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/christmas-tree.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="599.0" prefWidth="854.0">
+               <children>
+                  <SplitPane dividerPositions="0.1488294314381271" orientation="VERTICAL" prefHeight="599.0" prefWidth="986.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane maxHeight="100.0" minHeight="40.0" minWidth="0.0" prefHeight="40.0" prefWidth="986.0" style="-fx-background-color: DD545C;">
+                           <children>
+                              <VBox alignment="CENTER" layoutX="443.0" layoutY="-60.0" maxHeight="120.0" prefHeight="120.0" prefWidth="986.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label fx:id="headerLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="super-label-bright" text="My users" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane fx:id="dataContainerAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #9d7b72;" />
+                    </items>
+                  </SplitPane>
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
