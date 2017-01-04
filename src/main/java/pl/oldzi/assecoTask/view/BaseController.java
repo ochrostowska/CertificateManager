@@ -10,7 +10,6 @@ import pl.oldzi.assecoTask.model.Credentials;
 import pl.oldzi.assecoTask.util.SceneManager;
 import pl.oldzi.assecoTask.view.dialogs.WarningDialogController;
 
-import java.io.IOException;
 
 public class BaseController {
 
@@ -37,4 +36,6 @@ public class BaseController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+
 }

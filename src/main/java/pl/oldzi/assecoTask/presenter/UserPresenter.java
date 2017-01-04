@@ -3,6 +3,7 @@ package pl.oldzi.assecoTask.presenter;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import pl.oldzi.assecoTask.model.Credentials;
 import pl.oldzi.assecoTask.model.User;
 import pl.oldzi.assecoTask.network_calls.BaseNetworkManager;
 import pl.oldzi.assecoTask.util.SceneManager;
@@ -86,28 +87,17 @@ public class UserPresenter implements UserDataCommunicator {
 
     @Override
     public void userAdded(boolean success) {
-        networkManager.getUsers();
+        getUserDetails();
     }
 
     @Override
     public void userDeleted(boolean success) {
-        networkManager.getUsers();
-    }
-
-    @Override
-    public void tokenNotRetrieved() {
-    }
-
-    @Override
-    public void tokenValid(String token, boolean valid) {
-    }
-
-    @Override
-    public void tokenRetrieved(String username, String password, String accessToken) {
+        getUserDetails();
     }
 
     @Override
     public void noInternetConnection() {
+        this.viewController.showNoConnectionDialog();
 
     }
 

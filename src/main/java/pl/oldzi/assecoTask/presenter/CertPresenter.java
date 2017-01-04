@@ -25,7 +25,6 @@ public class CertPresenter implements CertDataCommunicator {
 
     private CertTableController view;
     private BaseNetworkManager networkManager;
-    private CertHelper certHelper;
 
     public CertPresenter(CertTableController view) {
         this.view = view;
@@ -38,20 +37,18 @@ public class CertPresenter implements CertDataCommunicator {
     }
 
     public void addCert() {
-        certHelper = CertHelper.getInstance();
-        File pemFile = certHelper.choosePemFile(this.view.getStage());
+        File pemFile =  CertHelper.choosePemFile(this.view.getStage());
         if (pemFile != null) {
-            String certInString = certHelper.getCertContentAsString(pemFile);
-            networkManager.addCert(certHelper.encodeCertContentToPEM(certInString));
+            String certInString = CertHelper.getCertContentAsString(pemFile);
+            networkManager.addCert(CertHelper.encodeCertContentToPEM(certInString));
         }
     }
 
     public void updateCert(Cert edited) {
-        certHelper = CertHelper.getInstance();
-        File pemFile = certHelper.choosePemFile(this.view.getStage());
+        File pemFile = CertHelper.choosePemFile(this.view.getStage());
         if (pemFile != null) {
-            String certInString = certHelper.getCertContentAsString(pemFile);
-            networkManager.editCert(edited.getId(), certHelper.encodeCertContentToPEM(certInString));
+            String certInString = CertHelper.getCertContentAsString(pemFile);
+            networkManager.editCert(edited.getId(), CertHelper.encodeCertContentToPEM(certInString));
         }
     }
 
@@ -69,7 +66,6 @@ public class CertPresenter implements CertDataCommunicator {
             networkManager.deleteCert(cert.getId());
     }
 
-
     @Override
     public void certDataRetrieved(ObservableList<Cert> certs) {
         if (certs != null) {
@@ -85,21 +81,6 @@ public class CertPresenter implements CertDataCommunicator {
     @Override
     public void certAdded(boolean success) {
         getCerts();
-    }
-
-    @Override
-    public void tokenNotRetrieved() {
-
-    }
-
-    @Override
-    public void tokenValid(String token, boolean valid) {
-
-    }
-
-    @Override
-    public void tokenRetrieved(String username, String password, String accessToken) {
-
     }
 
     @Override

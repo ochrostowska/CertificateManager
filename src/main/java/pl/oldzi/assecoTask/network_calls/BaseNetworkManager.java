@@ -27,6 +27,8 @@ public class BaseNetworkManager {
     private static final String PASSWORD = "yBIQPyVS";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String TOKENFORTESTING = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImphdmFfZGV2ZWxvcGVyYmoyQmdQaWgiLCJleHAiOjQ2MzU0MjE1MDF9.dMINLcuuETVYN-E-dOABWH4PQaH8mJSk-UkNFqva4jU";
+    private String accessToken = null;
+    private boolean tokenValid = false;
     private static OkHttpClient client;
     private static Gson gson;
     private LoginCommunicator loginCommunicator;
@@ -83,23 +85,23 @@ public class BaseNetworkManager {
 
                     String responseString = response.body().string();
                     System.out.println("Response body is : " + responseString);
-                    String accessToken = gson.fromJson(responseString, Properties.class).getProperty("token");
+                    accessToken = gson.fromJson(responseString, Properties.class).getProperty("token");
                     System.out.println("Access token is : " + accessToken);
                     if (accessToken == null) {
                         loginCommunicator.tokenNotRetrieved();
                     } else {
-                        loginCommunicator.tokenRetrieved(username, password, accessToken);
+                        loginCommunicator.tokenRetrieved(username, password);
                     }
                 }
             });
         }
     }
 
-    public void verifyToken(String accessToken) {
+    public boolean verifyToken() {
+        tokenValid = false;
         if (loginCommunicator != null) {
             if (accessToken == null) {
-                loginCommunicator.tokenNotRetrieved();
-                return;
+                return false;
             }
             final Request request = new Request.Builder()
                     .url(API_BASE_URL + "/auth/" + accessToken)
@@ -110,23 +112,25 @@ public class BaseNetworkManager {
             client.newCall(request).enqueue(new Callback() {
                 public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
-                    loginCommunicator.tokenValid(accessToken, false);
                 }
 
                 public void onResponse(Call call, Response response) throws IOException {
-                    if (!response.isSuccessful()) loginCommunicator.tokenValid(accessToken, false);
+                    if (!response.isSuccessful()) loginCommunicator.tokenValid(false);
                     String responseString = response.body().string();
                     System.out.println("Response body is : " + responseString);
                     String tokenStatus = gson.fromJson(responseString, Properties.class).getProperty("status");
                     if (tokenStatus.equals("OK")) {
-                        loginCommunicator.tokenValid(accessToken, true);
-                    } else loginCommunicator.tokenValid(accessToken, false);
+                        tokenValid = true;
+                    } else {
+                        loginCommunicator.tokenValid(false);
+                    }
                 }
             });
         }
+        return tokenValid;
     }
 
-    public void logOut(String accessToken) {
+    public void logOut() {
         if (loginCommunicator != null) {
             final Request request = new Request.Builder()
                     .delete()

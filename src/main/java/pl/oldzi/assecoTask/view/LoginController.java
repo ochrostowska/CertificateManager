@@ -3,7 +3,6 @@ package pl.oldzi.assecoTask.view;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -11,9 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pl.oldzi.assecoTask.model.Credentials;
 import pl.oldzi.assecoTask.presenter.LoginPresenter;
+import pl.oldzi.assecoTask.util.SceneManager;
 import pl.oldzi.assecoTask.util.UIEffectManager;
-
-import java.io.IOException;
 
 public class LoginController extends BaseController {
 
@@ -73,40 +71,17 @@ public class LoginController extends BaseController {
         }
     }
 
-    public void showInvalidCredentialsDialog() {
-        Platform.runLater(
-                () -> {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Authorisation error");
-                    alert.setContentText("Try to log again");
-                    alert.showAndWait();
-                }
-        );
-    }
-
     public void launchMainPanel(Credentials userCredentials) {
         Platform.runLater(
                 () -> {
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("/MainScreen.fxml"));
-                        AnchorPane mainPanel = loader.load();
-
-                        Stage mainStage = new Stage();
-                        mainStage.setTitle("Asseco Certificate Manager");
-                        Scene scene = new Scene(mainPanel);
-                        mainStage.setScene(scene);
-
+                        SceneManager sceneManager = SceneManager.getInstance();
+                        FXMLLoader loader = sceneManager.setupLoader("/MainScreen.fxml");
+                        Stage mainStage = sceneManager.setupDialogStage("Asseco Certificate Manager", loader);
                         MainPanelController controller = loader.getController();
-                        controller.setCredentials(userCredentials);
                         controller.setStage(mainStage);
-                        controller.start();
+                        controller.start(userCredentials);
                         mainStage.show();
                         ownerStage.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 });
     }
 

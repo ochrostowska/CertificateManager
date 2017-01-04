@@ -20,22 +20,21 @@ public class CertHelper {
         return ourInstance;
     }
 
-    public File choosePemFile(Stage stage) {
+    public static File choosePemFile(Stage stage) {
         return setupChooserForPEMFiles().showOpenDialog(stage);
     }
 
-    public String getCertContentAsString(File certFile) {
+    public static String getCertContentAsString(File certFile) {
         String content = "";
         try {
             content = Files.toString(certFile, Charset.defaultCharset());
-            System.out.println(content);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return content;
     }
 
-    private FileChooser setupChooserForPEMFiles() {
+    private static FileChooser setupChooserForPEMFiles() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Certificate File");
         FileChooser.ExtensionFilter extFilter =
@@ -44,7 +43,7 @@ public class CertHelper {
         return fileChooser;
     }
 
-    public String encodeCertContentToPEM(String certInString) {
+    public static String encodeCertContentToPEM(String certInString) {
             String certWithoutHeaders = certInString.replaceAll(X509Factory.BEGIN_CERT, "").replaceAll(X509Factory.END_CERT, "");
             String[] lines = certWithoutHeaders.split(System.getProperty("line.separator"));
             String rawCert = "";

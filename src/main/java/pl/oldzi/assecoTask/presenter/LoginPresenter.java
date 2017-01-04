@@ -1,5 +1,7 @@
 package pl.oldzi.assecoTask.presenter;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import pl.oldzi.assecoTask.model.Credentials;
 import pl.oldzi.assecoTask.network_calls.BaseNetworkManager;
 import pl.oldzi.assecoTask.view.LoginController;
@@ -21,8 +23,8 @@ public class LoginPresenter implements LoginCommunicator {
     }
 
     @Override
-    public void tokenRetrieved(String username, String password, String accessToken) {
-        userCredentials = new Credentials(username, password, accessToken);
+    public void tokenRetrieved(String username, String password) {
+        userCredentials = new Credentials(username, password);
         this.view.launchMainPanel(userCredentials);
     }
 
@@ -33,15 +35,28 @@ public class LoginPresenter implements LoginCommunicator {
 
     @Override
     public void tokenNotRetrieved() {
-        this.view.showInvalidCredentialsDialog();
+        showInvalidCredentialsDialog();
     }
 
     @Override
-    public void tokenValid(String token, boolean valid) {
+    public void tokenValid(boolean valid) {
         if(!valid) {
             if(userCredentials!=null) {
                 retrieveToken(userCredentials.getUsername(), userCredentials.getPassword());
             }
         }
+
+    }
+
+    public void showInvalidCredentialsDialog() {
+        Platform.runLater(
+                () -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Authorisation error");
+                    alert.setContentText("Try to log again");
+                    alert.showAndWait();
+                }
+        );
     }
 }

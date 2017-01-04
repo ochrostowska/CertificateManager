@@ -7,12 +7,10 @@ public class Credentials {
 
     private StringProperty username;
     private StringProperty password;
-    private StringProperty token;
 
-    public Credentials(String username, String password, String token) {
+    public Credentials(String username, String password) {
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
-        this.token = new SimpleStringProperty(token);
     }
     public String getUsername() {
         return username.get();
@@ -36,17 +34,5 @@ public class Credentials {
 
     public void setPassword(String password) {
         this.password.set(password);
-    }
-
-    public String getToken() {
-        return token.get();
-    }
-
-    public StringProperty tokenProperty() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token.set(token);
     }
 }
