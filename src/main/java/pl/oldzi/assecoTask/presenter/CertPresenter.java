@@ -25,6 +25,7 @@ public class CertPresenter implements CertDataCommunicator {
 
     private CertTableController view;
     private BaseNetworkManager networkManager;
+    private ObservableList<Cert> certs;
 
     public CertPresenter(CertTableController view) {
         this.view = view;
@@ -33,6 +34,7 @@ public class CertPresenter implements CertDataCommunicator {
     }
 
     public void getCerts() {
+        if(networkManager.verifyToken())
         networkManager.getCerts();
     }
 
@@ -40,6 +42,7 @@ public class CertPresenter implements CertDataCommunicator {
         File pemFile =  CertHelper.choosePemFile(this.view.getStage());
         if (pemFile != null) {
             String certInString = CertHelper.getCertContentAsString(pemFile);
+            if(networkManager.verifyToken())
             networkManager.addCert(CertHelper.encodeCertContentToPEM(certInString));
         }
     }
@@ -48,6 +51,7 @@ public class CertPresenter implements CertDataCommunicator {
         File pemFile = CertHelper.choosePemFile(this.view.getStage());
         if (pemFile != null) {
             String certInString = CertHelper.getCertContentAsString(pemFile);
+            if(networkManager.verifyToken())
             networkManager.editCert(edited.getId(), CertHelper.encodeCertContentToPEM(certInString));
         }
     }
@@ -63,12 +67,14 @@ public class CertPresenter implements CertDataCommunicator {
         dialogStage.showAndWait();
 
         if (controller.isOkClicked())
+            if(networkManager.verifyToken())
             networkManager.deleteCert(cert.getId());
     }
 
     @Override
     public void certDataRetrieved(ObservableList<Cert> certs) {
         if (certs != null) {
+            this.certs = certs;
             this.view.parseData(certs);
         }
     }
@@ -107,6 +113,17 @@ public class CertPresenter implements CertDataCommunicator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void filterExpiringCerts(boolean filter) {
+        if(!filter) this.view.parseData(certs);
+        else {
+            ObservableList<Cert> filteredCerts = null;
+            for (Cert c : certs)
+                if (c.checkIfEnding(c.getEncodedCertificate().getNotBefore()))
+                    filteredCerts.add(c);
+            this.view.parseData(filteredCerts);
         }
     }
 }

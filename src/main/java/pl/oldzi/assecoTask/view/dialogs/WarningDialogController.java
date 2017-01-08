@@ -5,44 +5,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class WarningDialogController {
-    @FXML
-    private Label titleLabel;
-    @FXML
-    private Label messageLabel;
+public class WarningDialogController extends AlertDialogController{
     @FXML
     private Button cancelButton;
-
     private Stage dialogStage;
-    private boolean okClicked = false;
-    public boolean isOkClicked() {
-        return okClicked;
-    }
 
     @FXML
-    private void initialize() {
-        messageLabel.setWrapText(true);
-    }
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-
-    public void setContent(String title, String message) {
-        titleLabel.setText(title);
-        messageLabel.setText(message);
+    private void handleCancel() {
+        dialogStage.close();
     }
 
     public void disableCancelButton() {
         cancelButton.setVisible(false);
-    }
-
-    @FXML
-    private void handleOk() {
-            okClicked = true;
-            dialogStage.close();
-    }
-    @FXML
-    private void handleCancel() {
-        dialogStage.close();
     }
 }

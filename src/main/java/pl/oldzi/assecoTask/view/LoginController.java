@@ -62,35 +62,21 @@ public class LoginController extends BaseController {
         if (errorMessage.length() == 0) {
             return true;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage);
-            alert.showAndWait();
+           loginPresenter.showInvalidCredentialsDialog(errorMessage);
             return false;
         }
     }
 
-    public void launchMainPanel(Credentials userCredentials) {
-        Platform.runLater(
-                () -> {
-                        SceneManager sceneManager = SceneManager.getInstance();
-                        FXMLLoader loader = sceneManager.setupLoader("/MainScreen.fxml");
-                        Stage mainStage = sceneManager.setupDialogStage("Asseco Certificate Manager", loader);
-                        MainPanelController controller = loader.getController();
-                        controller.setStage(mainStage);
-                        controller.start(userCredentials);
-                        mainStage.show();
-                        ownerStage.close();
-                });
-    }
-
     private void setupUIEffects() {
         UIEffectManager effectManager = UIEffectManager.getInstance();
-        effectManager.addOnEnterGlowEffect(loginButton, Color.BEIGE);
-        effectManager.addOnEnterGlowEffect(deerImageView, Color.PAPAYAWHIP);
-        effectManager.addGlowEffect(usernameField, Color.PAPAYAWHIP);
-        effectManager.addGlowEffect(passwordField, Color.PAPAYAWHIP);
         effectManager.addSnowBackground(anchorPane);
+        UIEffectManager.addOnEnterGlowEffect(loginButton, Color.BEIGE);
+        UIEffectManager.addOnEnterGlowEffect(deerImageView, Color.PAPAYAWHIP);
+        UIEffectManager.addGlowEffect(usernameField, Color.PAPAYAWHIP);
+        UIEffectManager.addGlowEffect(passwordField, Color.PAPAYAWHIP);
+    }
+
+    public void closeStage() {
+        ownerStage.close();
     }
 }

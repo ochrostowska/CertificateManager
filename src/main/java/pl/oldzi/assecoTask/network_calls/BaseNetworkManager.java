@@ -23,12 +23,8 @@ import java.util.Base64;
 public class BaseNetworkManager {
 
     private static final String API_BASE_URL = "http://213.222.200.96";
-    private static final String USERNAME = "java_developerbj2BgPih";
-    private static final String PASSWORD = "yBIQPyVS";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final String TOKENFORTESTING = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImphdmFfZGV2ZWxvcGVyYmoyQmdQaWgiLCJleHAiOjQ2MzU0MjE1MDF9.dMINLcuuETVYN-E-dOABWH4PQaH8mJSk-UkNFqva4jU";
     private String accessToken = null;
-    private boolean tokenValid = false;
     private static OkHttpClient client;
     private static Gson gson;
     private LoginCommunicator loginCommunicator;
@@ -98,7 +94,7 @@ public class BaseNetworkManager {
     }
 
     public boolean verifyToken() {
-        tokenValid = false;
+        boolean tokenValid = false;
         if (loginCommunicator != null) {
             if (accessToken == null) {
                 return false;
@@ -107,15 +103,9 @@ public class BaseNetworkManager {
                     .url(API_BASE_URL + "/auth/" + accessToken)
                     .addHeader("Authorization", "Token " + accessToken)
                     .build();
-
-
-            client.newCall(request).enqueue(new Callback() {
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (!response.isSuccessful()) loginCommunicator.tokenValid(false);
+            try {
+                Response response = client.newCall(request).execute();
+                if(response.isSuccessful()) {
                     String responseString = response.body().string();
                     System.out.println("Response body is : " + responseString);
                     String tokenStatus = gson.fromJson(responseString, Properties.class).getProperty("status");
@@ -125,7 +115,9 @@ public class BaseNetworkManager {
                         loginCommunicator.tokenValid(false);
                     }
                 }
-            });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return tokenValid;
     }
@@ -159,7 +151,7 @@ public class BaseNetworkManager {
         if(userDataCommunicator!=null) {
             Request request = new Request.Builder()
                     .url(API_BASE_URL + "/user")
-                    .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                    .addHeader("Authorization", "Token " + accessToken)
                     .build();
 
             client.newCall(request).enqueue(new Callback() {
@@ -205,7 +197,7 @@ public class BaseNetworkManager {
             RequestBody requestBody = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
                     .url(API_BASE_URL + "/user")
-                    .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                    .addHeader("Authorization", "Token " + accessToken)
                     .post(requestBody)
                     .build();
 
@@ -240,7 +232,7 @@ public class BaseNetworkManager {
             RequestBody requestBody = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
                     .url(API_BASE_URL + "/user/" + username)
-                    .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                    .addHeader("Authorization", "Token " + accessToken)
                     .put(requestBody)
                     .build();
 
@@ -269,7 +261,7 @@ public class BaseNetworkManager {
         if(userDataCommunicator!=null) {
             Request request = new Request.Builder()
                     .url(API_BASE_URL + "/user/" + username)
-                    .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                    .addHeader("Authorization", "Token " + accessToken)
                     .delete()
                     .build();
 
@@ -296,7 +288,7 @@ public class BaseNetworkManager {
         if(certDataCommunicator!=null) {
         Request request = new Request.Builder()
                 .url(API_BASE_URL + "/cert")
-                .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                .addHeader("Authorization", "Token " + accessToken)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -337,6 +329,31 @@ public class BaseNetworkManager {
     }
     }
 
+    public List<String> getUsersWithCerts() {
+        List<String> usersWithCerts = new ArrayList<>();
+        if (userDataCommunicator != null) {
+            Request request = new Request.Builder()
+                    .url(API_BASE_URL + "/cert")
+                    .addHeader("Authorization", "Token " + accessToken)
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    String responseString = response.body().string();
+                    List<LinkedHashMap<String, String>> certificates = gson
+                            .fromJson(responseString, new TypeToken<List<LinkedHashMap<String, String>>>() {
+                            }.getType());
+
+                    for (LinkedHashMap<String, String> certData : certificates) {
+                        Cert c = new Cert(certData);
+                        if (!usersWithCerts.contains(c.getOwner())) usersWithCerts.add(c.getOwner());
+                    }
+                }
+            } catch (IOException e) { e.printStackTrace(); }
+        }
+        return usersWithCerts;
+    }
+
     public void addCert(String certInPem) {
             if(certDataCommunicator!=null) {
                 String json =
@@ -346,7 +363,7 @@ public class BaseNetworkManager {
                 RequestBody requestBody = RequestBody.create(JSON, json);
                 Request request = new Request.Builder()
                         .url(API_BASE_URL + "/cert")
-                        .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                        .addHeader("Authorization", "Token " + accessToken)
                         .post(requestBody)
                         .build();
 
@@ -379,7 +396,7 @@ public class BaseNetworkManager {
             RequestBody requestBody = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
                     .url(API_BASE_URL + "/cert/" + id)
-                    .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                    .addHeader("Authorization", "Token " + accessToken)
                     .put(requestBody)
                     .build();
 
@@ -408,7 +425,7 @@ public class BaseNetworkManager {
         if (certDataCommunicator != null) {
             Request request = new Request.Builder()
                     .url(API_BASE_URL + "/cert/" + id)
-                    .addHeader("Authorization", "Token " + TOKENFORTESTING)
+                    .addHeader("Authorization", "Token " + accessToken)
                     .delete()
                     .build();
 

@@ -22,14 +22,14 @@ public class UIEffectManager {
         return ourInstance;
     }
 
-    public void addOnEnterGlowEffect(Node n, Color c) {
+    public static void addOnEnterGlowEffect(Node n, Color c) {
         DropShadow drop = new DropShadow(10, c);
         drop.setInput(new Glow());
         n.setOnMouseEntered(event -> n.setEffect(drop));
         n.setOnMouseExited(event -> n.setEffect(null));
     }
 
-    public void addGlowEffect(Node n, Color c) {
+    public static void addGlowEffect(Node n, Color c) {
         DropShadow drop = new DropShadow(10, c);
         drop.setInput(new Glow());
         n.setEffect(drop);

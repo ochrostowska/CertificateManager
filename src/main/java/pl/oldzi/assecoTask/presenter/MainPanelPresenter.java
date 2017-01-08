@@ -33,8 +33,8 @@ public class MainPanelPresenter implements LoginCommunicator {
     @Override
     public void tokenValid(boolean valid) {
         if (!valid) {
-        } // go to login screen
-
+            logOut();
+        }
     }
 
     @Override

@@ -6,18 +6,20 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import pl.oldzi.assecoTask.model.Cert;
 import pl.oldzi.assecoTask.model.User;
 import pl.oldzi.assecoTask.presenter.CertPresenter;
 import pl.oldzi.assecoTask.util.SceneManager;
+import pl.oldzi.assecoTask.util.UIEffectManager;
 import pl.oldzi.assecoTask.view.BaseController;
 import pl.oldzi.assecoTask.view.dialogs.EditDialogController;
 import pl.oldzi.assecoTask.view.dialogs.FilenameDialogController;
@@ -40,11 +42,12 @@ public class CertTableController extends BaseController {
     @FXML
     private TableColumn<Cert, String> validFromColumn;
     @FXML
-    private TableColumn<Cert, String> validToColumn;
+    private TableColumn<Cert, Cert> validToColumn;
+    @FXML
+    private CheckBox expiringCheckBox;
 
     private CertPresenter presenter;
     private Stage stage;
-
     public CertTableController() {
     }
 
@@ -66,7 +69,24 @@ public class CertTableController extends BaseController {
         ownerColumn.setCellValueFactory(cellData -> cellData.getValue().ownerProperty());
         commonNameColumn.setCellValueFactory(cellData -> cellData.getValue().certCommonNameProperty());
         validFromColumn.setCellValueFactory(cellData -> cellData.getValue().certValidBeginProperty());
-        validToColumn.setCellValueFactory(cellData -> cellData.getValue().certValidEndProperty());
+        validToColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue()));
+        validToColumn.setCellFactory(new Callback<TableColumn<Cert, Cert>, TableCell<Cert, Cert>>() {
+            @Override
+            public TableCell<Cert,  Cert> call(TableColumn<Cert, Cert> param) {
+                return new TableCell<Cert, Cert>() {
+                    @Override
+                    public void updateItem(Cert item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!isEmpty()) {
+                            if(item.checkIfEnding(item.getEncodedCertificate().getNotAfter()))
+                                UIEffectManager.addGlowEffect(this, Color.CORAL);
+                            setText(item.getCertValidEnd());
+                        }
+                    }
+                };
+            }
+        });
+
     }
 
     private void addActionColumns() {
@@ -80,9 +100,14 @@ public class CertTableController extends BaseController {
     }
 
     public void parseData(ObservableList<Cert> certs) {
-        System.out.println(certs.size());
-        System.out.println(certs.get(0).certValidBeginProperty());
         certTableView.setItems(certs);
+    }
+
+    @FXML
+    private void onExpiring() {
+        if(expiringCheckBox.isSelected())
+            presenter.filterExpiringCerts(true);
+        else presenter.filterExpiringCerts(false);
     }
 
     private TableColumn<Cert, Cert> createEditColumn() {
@@ -108,7 +133,6 @@ public class CertTableController extends BaseController {
 
     private TableColumn<Cert, Cert> createDeleteColumn() {
         TableColumn<Cert, Cert> column = new TableColumn<>(" ");
-
         column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         column.setCellFactory(param -> new TableCell<Cert, Cert>() {
             private final Button button = new Button("Delete");
@@ -129,7 +153,6 @@ public class CertTableController extends BaseController {
 
     private TableColumn<Cert, Cert> createSaveColumn() {
         TableColumn<Cert, Cert> column = new TableColumn<>(" ");
-
         column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         column.setCellFactory(param -> new TableCell<Cert, Cert>() {
             private final Button button = new Button("Save");
@@ -156,4 +179,5 @@ public class CertTableController extends BaseController {
     public Stage getStage() {
         return stage;
     }
+
 }

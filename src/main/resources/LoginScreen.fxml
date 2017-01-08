@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="300.0" maxWidth="400.0" minHeight="240.0" minWidth="400.0" prefHeight="240.0" prefWidth="400.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.oldzi.assecoTask.view.LoginController">
+<AnchorPane fx:id="anchorPane" maxHeight="400.0" maxWidth="400.0" minHeight="240.0" minWidth="400.0" prefHeight="240.0" prefWidth="400.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.oldzi.assecoTask.view.LoginController">
    <children>
       <Button fx:id="loginButton" layoutX="140.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="33.0" prefWidth="121.0" text="Log in" />
       <Label layoutX="147.0" layoutY="86.0" text="Username" />

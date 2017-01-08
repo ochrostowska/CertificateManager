@@ -13,6 +13,8 @@ import pl.oldzi.assecoTask.view.table_controllers.MyUsersTableController;
 import pl.oldzi.assecoTask.view.table_controllers.UserDetailsTableController;
 import pl.oldzi.assecoTask.view.table_controllers.UsersTableBaseController;
 
+import java.util.List;
+
 public class UserPresenter implements UserDataCommunicator {
 
     private UsersTableBaseController viewController;
@@ -32,6 +34,7 @@ public class UserPresenter implements UserDataCommunicator {
     }
 
     public void getUserDetails() {
+        if(networkManager.verifyToken())
         networkManager.getUsers();
     }
 
@@ -46,6 +49,7 @@ public class UserPresenter implements UserDataCommunicator {
         User user = controller.getUser();
 
         if (user != User.GHOST && controller.isOkClicked()) {
+            if(networkManager.verifyToken())
             networkManager.addUser(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getAge());
         }
     }
@@ -60,6 +64,7 @@ public class UserPresenter implements UserDataCommunicator {
         dialogStage.showAndWait();
 
         if (controller.getUser() != User.GHOST && controller.isOkClicked()) {
+            if(networkManager.verifyToken())
             networkManager.editUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getAge());
         }
     }
@@ -69,11 +74,17 @@ public class UserPresenter implements UserDataCommunicator {
         Stage dialogStage = sceneManager.setupDialogStage("Warning", loader);
 
         WarningDialogController controller = loader.getController();
-        controller.setContent("Delete user", "Are you sure you want to delete user " + user.getUsername() + " ?");
+        List<String> usersWithCerts = networkManager.getUsersWithCerts();
+        if(usersWithCerts.contains(user.getUsername())) {
+            controller.disableCancelButton();
+            controller.setContent("Cannot delete user", "User " + user.getUsername() + " has some certificates assigned.");
+        } else {
+            controller.setContent("Delete user", "Are you sure you want to delete user " + user.getUsername() + " ?");
+        }
         controller.setDialogStage(dialogStage);
         dialogStage.showAndWait();
-
-        if (controller.isOkClicked()) {
+        if (controller.isOkClicked() && !usersWithCerts.contains(user.getUsername())) {
+            if(networkManager.verifyToken())
             networkManager.deleteUser(user.getUsername());
         }
     }

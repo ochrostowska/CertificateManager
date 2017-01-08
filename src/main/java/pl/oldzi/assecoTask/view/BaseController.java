@@ -20,7 +20,7 @@ public class BaseController {
         Platform.runLater(
                 () -> {
                         SceneManager sceneManager = SceneManager.getInstance();
-                        FXMLLoader loader = sceneManager.setupLoader("/WarningDialog.fxml");
+                        FXMLLoader loader = sceneManager.setupLoader("/AlertDialog.fxml");
                         Stage dialogStage = sceneManager.setupDialogStage("No Connection", loader);
                         WarningDialogController controller = loader.getController();
                         controller.setDialogStage(dialogStage);

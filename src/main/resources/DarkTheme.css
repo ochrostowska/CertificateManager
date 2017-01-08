@@ -4,41 +4,41 @@
 
 .label {
     -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: #fafafa;
     -fx-opacity: 1;
 }
 
 .label-bright {
     -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: #fafafa;
     -fx-opacity: 1;
 }
 
 .super-label-bright {
     -fx-font-size: 3.0em;
-    -fx-font-family: "Inconsolata", "Consolas", System;
+    -fx-font-family: "Inconsolata", System;
     -fx-text-fill: #fafafa;
     -fx-opacity: 1;
 }
 
 .label-red {
     -fx-font-size: 1.5em;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: #DD545C;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI Light";
     -fx-text-fill: #fafafa;
     -fx-opacity: 1;
 }
 
 .super-header {
-    -fx-font-family: "Inconsolata", "Consolas", System;
+    -fx-font-family: "Inconsolata", System;
     -fx-text-fill: #fafafa;
     -fx-font-size: 1.8em;
 }
@@ -74,7 +74,7 @@
 }
 .table-view .column-header .label {
     -fx-font-size: 14pt;
-    -fx-font-family: "Inconsolata", "Consolas", System;
+    -fx-font-family: "Inconsolata", "DejaVu Sans Mono", System;
     -fx-text-fill: white;
     -fx-alignment: center-left;
     -fx-opacity: 1;
@@ -109,7 +109,7 @@
 
 .menu-bar .label {
     -fx-font-size: 14pt;
-    -fx-font-family: "Segoe UI", "Cambria";
+    -fx-font-family: "Segoe UI Light", "Cambria";
     -fx-text-fill: white;
     -fx-opacity: 0.9;
 }
@@ -119,13 +119,13 @@
 }
 
 .button {
-    -fx-font-family: "Inconsolata", "Consolas", System;
+    -fx-font-family: "Inconsolata", System;
     -fx-padding: 8 15 8 15;
     -fx-background-radius: 8;
     -fx-background-color: #DD545C;
     -fx-text-fill: #fafafa;
     -fx-font-weight: bold;
-    -fx-font-size: 1em;
+    -fx-font-size: 1.2em;
 }
 .button-bright {
     -fx-background-color: #fafafa;
@@ -180,4 +180,11 @@
 
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
+}
+
+.check-box {
+   -fx-text-fill: white;
+    -fx-font-family: "Inconsolata";
+    -fx-font-size: 1.2em;
+    -fx-color: #DD545C;
 }

@@ -22,7 +22,7 @@
         </AnchorPane>
       <AnchorPane fx:id="warningContentLabel" layoutX="5.0" layoutY="60.0" prefHeight="112.0" prefWidth="380.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <Label fx:id="messageLabel" alignment="CENTER" layoutX="203.0" layoutY="-20.0" prefHeight="134.0" prefWidth="380.0" text="warning text" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="messageLabel" alignment="CENTER" layoutX="203.0" layoutY="-20.0" prefHeight="134.0" prefWidth="380.0" text="warning text" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="79.0" fitWidth="90.0" layoutX="-41.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
